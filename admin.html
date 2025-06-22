@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ადმინი - LuxuryHub</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        .navbar-brand img {
+            height: 40px;
+        }
+        .luxury-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .admin-panel {
+            display: none;
+        }
+        .stats-card {
+            transition: transform 0.3s ease;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark luxury-bg">
+        <div class="container">
+            <a class="navbar-brand" href="https://www.tbcbank.ge/web/en/web/guest/education">
+                <img src="https://public.youware.com/users-website-assets/prod/de1beeb9-c3d0-4da5-ad8f-ebbfeaa957b2/a9a0931e99f84d4b9354ac5ba96a3e1c.png" alt="TBC Logo" class="me-2">
+                LuxuryHub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">მთავარი</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('products') }}">პროდუქტები</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">ჩვენ შესახებ</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">კონტაქტი</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{{ url_for('admin') }}">ადმინი</a></li>
+                <li class="nav-item">
+
+                    <li class="nav-item">
+                        <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#cartModal">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="badge bg-danger" id="cart-count">0</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" id="userActions">
+                        <button class="btn btn-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">შესვლა</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">რეგისტრაცია</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <section class="py-5 mt-5" id="loginSection">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card login-form">
+                        <div class="card-body p-5">
+                            <h3 class="text-center mb-4">ადმინისტრატორის ავტორიზაცია</h3>
+                            <form id="loginForm">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">მომხმარებლის სახელი</label>
+                                    <input type="text" class="form-control" id="username" required>
+                                    <div class="form-text">ადმინისთვის: </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">პაროლი</label>
+                                    <input type="password" class="form-control" id="password" required>
+                                    <div class="form-text">ადმინისთვის: </div>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">
+                                        დამახსოვრება
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-sign-in-alt me-2"></i>შესვლა
+                                </button>
+                            </form>
+
+                            <!-- Demo Users -->
+                            <div class="mt-4">
+                                <hr>
+                                <h6>ტესტ ანგარიშები:</h6>
+                                <small class="text-muted">
+
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-5 admin-panel" id="adminPanel">
+        <div class="container">
+
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2>ადმინისტრაციული პანელი</h2>
+                        <button class="btn btn-outline-danger" onclick="logout()">
+                            <i class="fas fa-sign-out-alt me-2"></i>გასვლა
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row g-4 mb-5">
+                <div class="col-md-3">
+                    <div class="card stats-card h-100 bg-primary text-white">
+                        <div class="card-body text-center">
+                            <i class="fas fa-users fa-3x mb-3"></i>
+                            <h4 id="totalUsers">0</h4>
+                            <p>სულ მომხმარებლები</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stats-card h-100 bg-success text-white">
+                        <div class="card-body text-center">
+                            <i class="fas fa-envelope fa-3x mb-3"></i>
+                            <h4 id="totalMessages">0</h4>
+                            <p>მიღებული მესიჯები</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stats-card h-100 bg-info text-white">
+                        <div class="card-body text-center">
+                            <i class="fas fa-shopping-cart fa-3x mb-3"></i>
+                            <h4 id="totalOrders">0</h4>
+                            <p>შეკვეთები</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stats-card h-100 bg-warning text-white">
+                        <div class="card-body text-center">
+                            <i class="fas fa-gem fa-3x mb-3"></i>
+                            <h4>6</h4>
+                            <p>პროდუქტები</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <ul class="nav nav-tabs" id="adminTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button" role="tab">
+                        <i class="fas fa-envelope me-2"></i>მესიჯები
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="products-tab" data-bs-toggle="tab" data-bs-target="#products" type="button" role="tab">
+                        <i class="fas fa-gem me-2"></i>პროდუქტები
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">
+                        <i class="fas fa-users me-2"></i>მომხმარებლები
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-4" id="adminTabsContent">
+
+                <div class="tab-pane fade show active" id="messages" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5><i class="fas fa-envelope me-2"></i>მიღებული მესიჯები</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="messagesList"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="products" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5><i class="fas fa-gem me-2"></i>პროდუქტების მართვა</h5>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                                <i class="fas fa-plus me-2"></i>ახალი პროდუქტი
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>სახელი</th>
+                                            <th>კატეგორია</th>
+                                            <th>ფასი</th>
+                                            <th>სტატუსი</th>
+                                            <th>მოქმედებები</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productsTable">
+                                        <tr>
+                                            <td>ბრილიანტის ბეჭედი</td>
+                                            <td>სამკაულები</td>
+                                            <td>$15,000</td>
+                                            <td><span class="badge bg-success">აქტიური</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">რედაქტირება</button>
+                                                <button class="btn btn-sm btn-outline-danger">წაშლა</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>ალმასის კოლექცია</td>
+                                            <td>სამკაულები</td>
+                                            <td>$25,000</td>
+                                            <td><span class="badge bg-success">აქტიური</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">რედაქტირება</button>
+                                                <button class="btn btn-sm btn-outline-danger">წაშლა</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="users" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5><i class="fas fa-users me-2"></i>რეგისტრირებული მომხმარებლები</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="usersList">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    მალე დავამატებ.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="modal fade" id="addProductModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ახალი პროდუქტის დამატება</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProductForm">
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">პროდუქტის სახელი</label>
+                            <input type="text" class="form-control" id="productName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productCategory" class="form-label">კატეგორია</label>
+                            <select class="form-select" id="productCategory" required>
+                                <option value="">აირჩიეთ კატეგორია</option>
+                                <option value="jewelry">სამკაულები</option>
+                                <option value="watches">საათები</option>
+                                <option value="accessories">აქსესუარები</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productPrice" class="form-label">ფასი ($)</label>
+                            <input type="number" class="form-control" id="productPrice" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productDescription" class="form-label">აღწერა</label>
+                            <textarea class="form-control" id="productDescription" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">გაუქმება</button>
+                    <button type="button" class="btn btn-primary" onclick="addProduct()">დამატება</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>LuxuryHub</h5>
+                    <p>ლუქსური პროდუქტების ექსკლუზიური მაღაზია</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/nikuradze.00000000?igsh=MW03ZHEzcTRocnlp" target="_blank" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+                    </div>
+                    <p class="mt-2 mb-0">&copy; 2025 LuxuryHub. ყველა უფლება დაცულია.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Check if already logged in
+        if (localStorage.getItem('adminLoggedIn')) {
+            showAdminPanel();
+        }
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Demo credentials
+            if ((username === 'admin' && password === 'admin123') ||
+                (username === 'user' && password === 'user123')) {
+
+                localStorage.setItem('adminLoggedIn', 'true');
+                localStorage.setItem('userRole', username === 'admin' ? 'admin' : 'user');
+                showAdminPanel();
+            } else {
+                alert('არასწორი მომხმარებლის სახელი ან პაროლი!');
+            }
+        });
+
+        function showAdminPanel() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            loadDashboardData();
+        }
+
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('userRole');
+            location.reload();
+        }
+
+        function loadDashboardData() {
+            // Load messages
+            const contacts = JSON.parse(localStorage.getItem('luxuryContacts')) || [];
+            document.getElementById('totalMessages').textContent = contacts.length;
+
+            // Display messages
+            const messagesList = document.getElementById('messagesList');
+            if (contacts.length === 0) {
+                messagesList.innerHTML = '<div class="alert alert-info">ახალი მესიჯები არ არის</div>';
+            } else {
+                messagesList.innerHTML = contacts.map(contact => `
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex justify-content-between">
+                            <h6>${contact.firstName} ${contact.lastName}</h6>
+                            <small class="text-muted">${new Date(contact.timestamp).toLocaleString('ka-GE')}</small>
+                        </div>
+                        <p><strong>ელ. ფოსტა:</strong> ${contact.email}</p>
+                        <p><strong>თემა:</strong> ${contact.subject}</p>
+                        <p><strong>მესიჯი:</strong> ${contact.message}</p>
+                    </div>
+                `).join('');
+            }
+
+            // Simulate users and orders
+            document.getElementById('totalUsers').textContent = Math.floor(Math.random() * 100) + 50;
+            document.getElementById('totalOrders').textContent = Math.floor(Math.random() * 50) + 25;
+        }
+
+        function addProduct() {
+            const name = document.getElementById('productName').value;
+            const category = document.getElementById('productCategory').value;
+            const price = document.getElementById('productPrice').value;
+            const description = document.getElementById('productDescription').value;
+
+            if (name && category && price) {
+                alert('პროდუქტი წარმატებით დაემატა!');
+                bootstrap.Modal.getInstance(document.getElementById('addProductModal')).hide();
+                document.getElementById('addProductForm').reset();
+            }
+        }
+    </script>
+</body>
+</html>

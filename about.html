@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ჩვენ შესახებ - LuxuryHub</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        .navbar-brand img {
+            height: 40px;
+        }
+        .luxury-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .team-card {
+            transition: transform 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark luxury-bg">
+        <div class="container">
+            <a class="navbar-brand" href="https://www.tbcbank.ge/web/en/web/guest/education">
+                <img src="https://public.youware.com/users-website-assets/prod/de1beeb9-c3d0-4da5-ad8f-ebbfeaa957b2/a9a0931e99f84d4b9354ac5ba96a3e1c.png" alt="TBC Logo" class="me-2">
+                LuxuryHub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">მთავარი</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('products') }}">პროდუქტები</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">ჩვენ შესახებ</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">კონტაქტი</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{{ url_for('admin') }}">ადმინი</a></li>
+                <li class="nav-item">
+
+
+                    <li class="nav-item">
+                        <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#cartModal">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="badge bg-danger" id="cart-count">0</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" id="userActions">
+                        <button class="btn btn-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">შესვლა</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">რეგისტრაცია</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <section class="py-5 mt-5 bg-light">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col">
+                    <h1 class="display-4 fw-bold">ჩვენ შესახებ</h1>
+                    <p class="lead">LuxuryHub - ლუქსური პროდუქტების მსოფლიო</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6">
+                    <h2 class="mb-4">ჩვენი ისტორია</h2>
+                    <p class="lead">LuxuryHub დაარსდა 2025 წელს მიზნით, რომ მომხმარებლებს მიეწოდებინა ყველაზე ექსკლუზიური და ხარისხიანი ლუქსური პროდუქტები.</p>
+                    <p>ჩვენ ვმუშაობთ მსოფლიოს წამყვან ბრენდებთან და ხელოსნებთან, რათა თქვენთვის შევარჩიოთ უნიკალური და გამორჩეული ნივთები, რომლებიც განასხვავებენ თქვენს სტილს.</p>
+                    <p>ყოველი პროდუქტი, რომელსაც ჩვენ ვთავაზობთ, გადის მკაცრ ხარისხის კონტროლს და არის ნამდვილად ავთენტური.</p>
+                </div>
+                <div class="col-md-6">
+                    <img src="https://public.youware.com/users-website-assets/prod/de1beeb9-c3d0-4da5-ad8f-ebbfeaa957b2/1b4ce7d70caf45e9801ef34ea5f4b221.jpg" class="img-fluid rounded shadow" alt="ლუქსური მაღაზია">
+                </div>
+            </div>
+
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6 order-md-2">
+                    <h2 class="mb-4">ჩვენი მისია</h2>
+                    <p class="lead">ჩვენი მისიაა ყოველი მომხმარებლისთვის განვავითაროთ უნიკალური და დაუვიწყარი გამოცდილება ლუქსური პროდუქტების შერჩევისა და შეძენის პროცესში.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-primary me-2"></i>100% ავთენტური პროდუქტები</li>
+                        <li><i class="fas fa-check text-primary me-2"></i>პერსონალიზებული სერვისი</li>
+                        <li><i class="fas fa-check text-primary me-2"></i>მსოფლიო ხარისხის მხარდაჭერა</li>
+                        <li><i class="fas fa-check text-primary me-2"></i>ექსკლუზიური კოლექციები</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 order-md-1">
+                    <img src="https://public.youware.com/users-website-assets/prod/de1beeb9-c3d0-4da5-ad8f-ebbfeaa957b2/9c8c7a7ea2b24a2398e6f749830e2910.jpg" class="img-fluid rounded shadow" alt="ალმასები">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col">
+                    <h2 class="display-5 fw-bold">ჩვენი გუნდი</h2>
+                    <p class="lead">პროფესიონალები, რომლებიც ზრუნავენ თქვენს კმაყოფილებაზე</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card team-card h-100 text-center">
+                        <div class="card-body">
+                            <div class="bg-primary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="fas fa-user fa-2x text-white"></i>
+                            </div>
+                            <h5 class="card-title">ნინო გელაშვილი</h5>
+                            <p class="card-text text-muted">ბრენდ მენეჯერი</p>
+                            <p class="card-text">20 წლიანი გამოცდილება ლუქსური ბრენდების მენეჯმენტში</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card team-card h-100 text-center">
+                        <div class="card-body">
+                            <div class="bg-primary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="fas fa-user fa-2x text-white"></i>
+                            </div>
+                            <h5 class="card-title">გიორგი ვაშაკიძე</h5>
+                            <p class="card-text text-muted">ყიდვების დირექტორი</p>
+                            <p class="card-text">ექსპერტი ლუქსური საკვერცხეების და საათების მიმართულებით</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card team-card h-100 text-center">
+                        <div class="card-body">
+                            <div class="bg-primary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="fas fa-user fa-2x text-white"></i>
+                            </div>
+                            <h5 class="card-title">ანა მაისურაძე</h5>
+                            <p class="card-text text-muted">კლიენტ მენეჯერი</p>
+                            <p class="card-text">გამორჩეული სერვისი და პერსონალიზებული მიდგომა</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col">
+                    <h2 class="display-5 fw-bold">ჩვენი ღირებულებები</h2>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-3 text-center">
+                    <i class="fas fa-gem fa-3x text-primary mb-3"></i>
+                    <h4>ხარისხი</h4>
+                    <p>ყოველი პროდუქტი არის ნამდვილი ხელოვნების ნიმუში</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <i class="fas fa-handshake fa-3x text-primary mb-3"></i>
+                    <h4>ნდობა</h4>
+                    <p>ჩვენ ვაგებთ გრძელვადიან ურთიერთობას მომხმარებლებთან</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <i class="fas fa-star fa-3x text-primary mb-3"></i>
+                    <h4>ექსკლუზივობა</h4>
+                    <p>უნიკალური პროდუქტები, რომლებსაც ვერსად ვერ იშოვით</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <i class="fas fa-heart fa-3x text-primary mb-3"></i>
+                    <h4>სიყვარული</h4>
+                    <p>ყოველ დეტალში ჩადებული სიყვარული და ყურადღება</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>LuxuryHub</h5>
+                    <p>ლუქსური პროდუქტების ექსკლუზიური მაღაზია</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/nikuradze.00000000?igsh=MW03ZHEzcTRocnlp" target="_blank" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+                    </div>
+                    <p class="mt-2 mb-0">&copy; 2025 LuxuryHub. ყველა უფლება დაცულია.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    
+    <div class="modal fade" id="cartModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">კალათა</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cart-items"></div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong>სულ: <span id="cart-total">$0</span></strong>
+                        <button class="btn btn-success" onclick="checkout()">
+                            <i class="fas fa-credit-card me-2"></i>შეკვეთის გაფორმება
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">დახურვა</button>
+                    <button type="button" class="btn btn-outline-danger" onclick="clearCart()">კალათის გასუფთავება</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">შესვლა</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">ელ. ფოსტა</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">პაროლი</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberLogin">
+                            <label class="form-check-label" for="rememberLogin">დამახსოვრება</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">შესვლა</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">რეგისტრაცია</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="regFirstName" class="form-label">სახელი</label>
+                                <input type="text" class="form-control" id="regFirstName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="regLastName" class="form-label">გვარი</label>
+                                <input type="text" class="form-control" id="regLastName" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="regEmail" class="form-label">ელ. ფოსტა</label>
+                                <input type="email" class="form-control" id="regEmail" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="regPassword" class="form-label">პაროლი</label>
+                                <input type="password" class="form-control" id="regPassword" required minlength="6">
+                            </div>
+                            <div class="col-12">
+                                <label for="regConfirmPassword" class="form-label">პაროლის დასტური</label>
+                                <input type="password" class="form-control" id="regConfirmPassword" required>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="regTerms" required>
+                                    <label class="form-check-label" for="regTerms">
+                                        ვეთანხმები <a href="#" target="_blank">მომსახურების პირობებს</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100">რეგისტრაცია</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Global cart and user management
+        let cart = JSON.parse(localStorage.getItem('luxuryCart')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartDisplay();
+            updateUserInterface();
+        });
+
+        // Include the same JavaScript functions as in index.html
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cart-count');
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+
+            if (cartCount) cartCount.textContent = cart.length;
+
+            if (cartItems) {
+                if (cart.length === 0) {
+                    cartItems.innerHTML = '<div class="text-center text-muted py-4">კალათა ცარიელია</div>';
+                } else {
+                    cartItems.innerHTML = cart.map((item, index) => `
+                        <div class="d-flex justify-content-between align-items-center mb-3 p-3 border rounded">
+                            <div>
+                                <h6 class="mb-1">${item.name}</h6>
+                                <small class="text-muted">$${item.price.toLocaleString()}</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${index})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            if (cartTotal) {
+                const total = cart.reduce((sum, item) => sum + item.price, 0);
+                cartTotal.textContent = `$${total.toLocaleString()}`;
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('luxuryCart', JSON.stringify(cart));
+            updateCartDisplay();
+        }
+
+        function clearCart() {
+            cart = [];
+            localStorage.setItem('luxuryCart', JSON.stringify(cart));
+            updateCartDisplay();
+        }
+
+        function checkout() {
+            if (!currentUser) {
+                alert('შეკვეთის გასაფორმებლად საჭიროა ავტორიზაცია');
+                bootstrap.Modal.getInstance(document.getElementById('cartModal')).hide();
+                setTimeout(() => {
+                    new bootstrap.Modal(document.getElementById('loginModal')).show();
+                }, 300);
+                return;
+            }
+
+            if (cart.length === 0) {
+                alert('კალათა ცარიელია');
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            alert(`შეკვეთა გაფორმდა! სულ: $${total.toLocaleString()}`);
+            clearCart();
+            bootstrap.Modal.getInstance(document.getElementById('cartModal')).hide();
+        }
+
+        function updateUserInterface() {
+            const userActions = document.getElementById('userActions');
+            if (!userActions) return;
+
+            if (currentUser) {
+                userActions.innerHTML = `
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-2"></i>${currentUser.firstName}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>პროფილი</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i>შეკვეთების ისტორია</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>გამოსვლა</a></li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const users = JSON.parse(localStorage.getItem('luxuryUsers')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUserInterface();
+                bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+                alert(`მოგესალმებით, ${user.firstName}!`);
+            } else {
+                alert('არასწორი ელ. ფოსტა ან პაროლი');
+            }
+        });
+
+        // Register form handler
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const firstName = document.getElementById('regFirstName').value;
+            const lastName = document.getElementById('regLastName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('პაროლები არ ემთხვევა');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('luxuryUsers')) || [];
+
+            if (users.find(u => u.email === email)) {
+                alert('ამ ელ. ფოსტით მომხმარებელი უკვე არსებობს');
+                return;
+            }
+
+            const newUser = {
+                id: Date.now(),
+                firstName,
+                lastName,
+                email,
+                password,
+                registeredAt: new Date().toISOString()
+            };
+
+            users.push(newUser);
+            localStorage.setItem('luxuryUsers', JSON.stringify(users));
+
+            currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+            updateUserInterface();
+            bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
+            alert(`${firstName}, მოგესალმებით LuxuryHub-ში!`);
+        });
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            updateUserInterface();
+            alert('თქვენ წარმატებით გამოხვედით');
+        }
+    </script>
+</body>
+</html>

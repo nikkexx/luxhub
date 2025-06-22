@@ -1,0 +1,570 @@
+
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>კონტაქტი - LuxuryHub</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        .navbar-brand img {
+            height: 40px;
+        }
+        .luxury-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .contact-form {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark luxury-bg">
+        <div class="container">
+            <a class="navbar-brand" href="https://www.tbcbank.ge/web/en/web/guest/education">
+                <img src="https://public.youware.com/users-website-assets/prod/de1beeb9-c3d0-4da5-ad8f-ebbfeaa957b2/a9a0931e99f84d4b9354ac5ba96a3e1c.png" alt="TBC Logo" class="me-2">
+                LuxuryHub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">მთავარი</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('products') }}">პროდუქტები</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">ჩვენ შესახებ</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">კონტაქტი</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{{ url_for('admin') }}">ადმინი</a></li>
+                <li class="nav-item">
+
+                    <li class="nav-item">
+                        <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#cartModal">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="badge bg-danger" id="cart-count">0</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" id="userActions">
+                        <button class="btn btn-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">შესვლა</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">რეგისტრაცია</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-5 mt-5 bg-light">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col">
+                    <h1 class="display-4 fw-bold">დაგვიკავშირდით</h1>
+                    <p class="lead">ჩვენ მზად ვართ, გავიგოთ თქვენი საჭიროებები</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card contact-form">
+                        <div class="card-body p-5">
+                            <h3 class="text-center mb-4">მოგვწერეთ მესიჯი</h3>
+                            <form id="contactForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="firstName" class="form-label">სახელი *</label>
+                                        <input type="text" class="form-control" id="firstName" required>
+                                        <div class="invalid-feedback">
+                                            გთხოვთ შეიყვანოთ სახელი
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="lastName" class="form-label">გვარი *</label>
+                                        <input type="text" class="form-control" id="lastName" required>
+                                        <div class="invalid-feedback">
+                                            გთხოვთ შეიყვანოთ გვარი
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">ელ. ფოსტა *</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                        <div class="invalid-feedback">
+                                            გთხოვთ შეიყვანოთ ვალიდური ელ. ფოსტა
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label">ტელეფონი</label>
+                                        <input type="tel" class="form-control" id="phone">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="subject" class="form-label">თემა *</label>
+                                        <select class="form-select" id="subject" required>
+                                            <option value="">აირჩიეთ თემა</option>
+                                            <option value="product">პროდუქტის შესახებ კითხვა</option>
+                                            <option value="order">შეკვეთის სტატუსი</option>
+                                            <option value="support">ტექნიკური მხარდაჭერა</option>
+                                            <option value="partnership">პარტნიორობა</option>
+                                            <option value="other">სხვა</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            გთხოვთ აირჩიოთ თემა
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="message" class="form-label">მესიჯი *</label>
+                                        <textarea class="form-control" id="message" rows="5" required placeholder="დაწერეთ თქვენი მესიჯი აქ..."></textarea>
+                                        <div class="invalid-feedback">
+                                            გთხოვთ დაწეროთ მესიჯი
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="privacy" required>
+                                            <label class="form-check-label" for="privacy">
+                                                ვეთანხმები <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">კონფიდენციალურობის პოლიტიკას</a> *
+                                            </label>
+                                            <div class="invalid-feedback">
+                                                გთხოვთ დაეთანხმოთ კონფიდენციალურობის პოლიტიკას
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                                            <i class="fas fa-paper-plane me-2"></i>მესიჯის გაგზავნა
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col">
+                    <h2 class="display-5 fw-bold">საკონტაქტო ინფორმაცია</h2>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 text-center">
+                    <div class="p-4">
+                        <i class="fas fa-map-marker-alt fa-3x text-primary mb-3"></i>
+                        <h4>მისამართი</h4>
+                        <p>თბილისი, რუსთაველის გამზირი 12<br>საქართველო, 0108</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="p-4">
+                        <i class="fas fa-phone fa-3x text-primary mb-3"></i>
+                        <h4>ტელეფონი</h4>
+                        <p>+995 32 2 123456<br>+995 555 123456</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="p-4">
+                        <i class="fas fa-envelope fa-3x text-primary mb-3"></i>
+                        <h4>ელ. ფოსტა</h4>
+                        <p>info@luxuryhub.ge<br>support@luxuryhub.ge</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <h3 class="mb-4">სამუშაო საათები</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row text-start">
+                                <div class="col-6"><strong>ორშაბათი - პარასკევი:</strong></div>
+                                <div class="col-6">09:00 - 19:00</div>
+                                <div class="col-6"><strong>შაბათი:</strong></div>
+                                <div class="col-6">10:00 - 18:00</div>
+                                <div class="col-6"><strong>კვირა:</strong></div>
+                                <div class="col-6">დახურულია</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="modal fade" id="privacyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">კონფიდენციალურობის პოლიტიკა</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>მონაცემთა დაცვა</h6>
+                    <p>ჩვენ ვიცავთ თქვენს პერსონალურ მონაცემებს და ვიყენებთ მხოლოდ საკომუნიკაციო მიზნებისთვის.</p>
+
+                    <h6>მონაცემთა გამოყენება</h6>
+                    <p>თქვენი მონაცემები გამოიყენება მხოლოდ თქვენს მოთხოვნაზე პასუხისთვის და არ გადაეცემა მესამე მხარეს.</p>
+
+                    <h6>უსაფრთხოება</h6>
+                    <p>ყველა მონაცემი ინახება დაცული სერვერებზე და შიფრული საკომუნიკაციო პროტოკოლით.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">გასაგებია</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>LuxuryHub</h5>
+                    <p>ლუქსური პროდუქტების ექსკლუზიური მაღაზია</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/nikuradze.00000000?igsh=MW03ZHEzcTRocnlp" target="_blank" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+                    </div>
+                    <p class="mt-2 mb-0">&copy; 2024 LuxuryHub. ყველა უფლება დაცულია.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <div class="modal fade" id="cartModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">კალათა</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cart-items"></div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong>სულ: <span id="cart-total">$0</span></strong>
+                        <button class="btn btn-success" onclick="checkout()">
+                            <i class="fas fa-credit-card me-2"></i>შეკვეთის გაფორმება
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">დახურვა</button>
+                    <button type="button" class="btn btn-outline-danger" onclick="clearCart()">კალათის გასუფთავება</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">შესვლა</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">ელ. ფოსტა</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">პაროლი</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberLogin">
+                            <label class="form-check-label" for="rememberLogin">დამახსოვრება</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">შესვლა</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">რეგისტრაცია</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="regFirstName" class="form-label">სახელი</label>
+                                <input type="text" class="form-control" id="regFirstName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="regLastName" class="form-label">გვარი</label>
+                                <input type="text" class="form-control" id="regLastName" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="regEmail" class="form-label">ელ. ფოსტა</label>
+                                <input type="email" class="form-control" id="regEmail" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="regPassword" class="form-label">პაროლი</label>
+                                <input type="password" class="form-control" id="regPassword" required minlength="6">
+                            </div>
+                            <div class="col-12">
+                                <label for="regConfirmPassword" class="form-label">პაროლის დასტური</label>
+                                <input type="password" class="form-control" id="regConfirmPassword" required>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="regTerms" required>
+                                    <label class="form-check-label" for="regTerms">
+                                        ვეთანხმები <a href="#" target="_blank">მომსახურების პირობებს</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100">რეგისტრაცია</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Global cart and user management
+        let cart = JSON.parse(localStorage.getItem('luxuryCart')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartDisplay();
+            updateUserInterface();
+        });
+
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cart-count');
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+
+            if (cartCount) cartCount.textContent = cart.length;
+
+            if (cartItems) {
+                if (cart.length === 0) {
+                    cartItems.innerHTML = '<div class="text-center text-muted py-4">კალათა ცარიელია</div>';
+                } else {
+                    cartItems.innerHTML = cart.map((item, index) => `
+                        <div class="d-flex justify-content-between align-items-center mb-3 p-3 border rounded">
+                            <div>
+                                <h6 class="mb-1">${item.name}</h6>
+                                <small class="text-muted">$${item.price.toLocaleString()}</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${index})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            if (cartTotal) {
+                const total = cart.reduce((sum, item) => sum + item.price, 0);
+                cartTotal.textContent = `$${total.toLocaleString()}`;
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('luxuryCart', JSON.stringify(cart));
+            updateCartDisplay();
+        }
+
+        function clearCart() {
+            cart = [];
+            localStorage.setItem('luxuryCart', JSON.stringify(cart));
+            updateCartDisplay();
+        }
+
+        function checkout() {
+            if (!currentUser) {
+                alert('შეკვეთის გასაფორმებლად საჭიროა ავტორიზაცია');
+                bootstrap.Modal.getInstance(document.getElementById('cartModal')).hide();
+                setTimeout(() => {
+                    new bootstrap.Modal(document.getElementById('loginModal')).show();
+                }, 300);
+                return;
+            }
+
+            if (cart.length === 0) {
+                alert('კალათა ცარიელია');
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            alert(`შეკვეთა გაფორმდა! სულ: $${total.toLocaleString()}`);
+            clearCart();
+            bootstrap.Modal.getInstance(document.getElementById('cartModal')).hide();
+        }
+
+        function updateUserInterface() {
+            const userActions = document.getElementById('userActions');
+            if (!userActions) return;
+
+            if (currentUser) {
+                userActions.innerHTML = `
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-2"></i>${currentUser.firstName}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>პროფილი</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i>შეკვეთების ისტორია</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>გამოსვლა</a></li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const users = JSON.parse(localStorage.getItem('luxuryUsers')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUserInterface();
+                bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+                alert(`მოგესალმებით, ${user.firstName}!`);
+            } else {
+                alert('არასწორი ელ. ფოსტა ან პაროლი');
+            }
+        });
+
+        // Register form handler
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const firstName = document.getElementById('regFirstName').value;
+            const lastName = document.getElementById('regLastName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('პაროლები არ ემთხვევა');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('luxuryUsers')) || [];
+
+            if (users.find(u => u.email === email)) {
+                alert('ამ ელ. ფოსტით მომხმარებელი უკვე არსებობს');
+                return;
+            }
+
+            const newUser = {
+                id: Date.now(),
+                firstName,
+                lastName,
+                email,
+                password,
+                registeredAt: new Date().toISOString()
+            };
+
+            users.push(newUser);
+            localStorage.setItem('luxuryUsers', JSON.stringify(users));
+
+            currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+            updateUserInterface();
+            bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
+            alert(`${firstName}, მოგესალმებით LuxuryHub-ში!`);
+        });
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            updateUserInterface();
+            alert('თქვენ წარმატებით გამოხვედით');
+        }
+
+        // Contact form validation and submission
+        (function() {
+            'use strict';
+
+            const form = document.getElementById('contactForm');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                if (form.checkValidity()) {
+                    // Simulate form submission
+                    const formData = {
+                        firstName: document.getElementById('firstName').value,
+                        lastName: document.getElementById('lastName').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        subject: document.getElementById('subject').value,
+                        message: document.getElementById('message').value,
+                        timestamp: new Date().toISOString()
+                    };
+
+                    // Save to localStorage (simulate database)
+                    let contacts = JSON.parse(localStorage.getItem('luxuryContacts')) || [];
+                    contacts.push(formData);
+                    localStorage.setItem('luxuryContacts', JSON.stringify(contacts));
+
+                    // Show success message
+                    alert('თქვენი მესიჯი წარმატებით გაიგზავნა! ჩვენ დაგიკავშირდებით 24 საათის განმავლობაში.');
+                    form.reset();
+                    form.classList.remove('was-validated');
+                } else {
+                    form.classList.add('was-validated');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
